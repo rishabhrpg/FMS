@@ -20,16 +20,14 @@ public class TaskDao {
             Connection conn = DBHelper.getDbConnection();
             
             PreparedStatement pst = conn.prepareStatement("insert into tasks(id,name,stime,etime) values(tasks_id.nextval,?,?,?)");
-            pst.setString(1,task.getStime());
-            pst.setString(2,task.getEtime());
-            pst.setString(3,task.getName());
-             if(pst.execute())
-             {
-                 return true;
-             }
-           else{
+            pst.setString(1,task.getName());
+            pst.setTimestamp(2,task.getStime());
+            pst.setTimestamp(3,task.getEtime());            
+            if(pst.executeUpdate()==1){
+                return true;
+            }else
                 return false;
-            }
+             
         }catch(Exception x){
             System.out.println("Error : "+x);
             return false;
