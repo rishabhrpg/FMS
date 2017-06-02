@@ -14,7 +14,7 @@
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
-        <input type='text' value="Starting Date and Time" id="datetimepicker" data-date-format="yyyy-mm-dd hh:ii" class="form-control" />
+        <input type='text' name = "stime" value="Starting Date and Time" id="datetimepicker" data-date-format="yyyy-mm-dd hh:mm:ss" class="form-control" />
     </div>
 </div>
 <div class="form-group">
@@ -22,11 +22,12 @@
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
-        <input type='text' value="Ending Date and Time" id="datetimepicker" data-date-format="yyyy-mm-dd hh:ii" class="form-control" />
+        <input type='text' name = 'etime' value="Ending Date and Time" id="datetimepicker2" data-date-format="yyyy-mm-dd hh:mm:ss" class="form-control" />
     </div>
 </div>
 <script>
     $('#datetimepicker').datetimepicker();
+    $('#datetimepicker2').datetimepicker(); 
 </script>
 <div class="row w3-center">
     <button class="w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding">Save</button>
