@@ -43,7 +43,7 @@ public class Welcome extends HttpServlet {
            if(Helper.validateAdmin(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
-               out.println("<br><br><br><br><div class='container-fluid'>");
+                out.println("<br><div class='container-fluid'>");
                out.println("<div class='row'>");
                out.println("<div class='col-md-3'>");
                out.println("<div class=\"\">\n" +
@@ -113,6 +113,7 @@ public class Welcome extends HttpServlet {
                 "</div>\n" +
                 "<br>\n" +
                 "</div>");
+               
                request.getRequestDispatcher("index.footer.html").include(request, response);
            }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
