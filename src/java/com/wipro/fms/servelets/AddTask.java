@@ -5,25 +5,24 @@
  */
 package com.wipro.fms.servelets;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import Helpers.Helper;
 import com.wipro.fms.userdao.UserDao;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author Marvel
  */
-@WebServlet(name = "Welcome", urlPatterns = {"/Welcome"})
-public class Welcome extends HttpServlet {
+public class AddTask extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,8 +38,7 @@ public class Welcome extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            System.out.println(Helper.validateAdmin(session));
-           if(Helper.validateAdmin(session)){
+            if(Helper.validateAdmin(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
@@ -113,15 +111,15 @@ public class Welcome extends HttpServlet {
                 "</div>\n" +
                 "<br>\n" +
                 "</div>");
-               
-               request.getRequestDispatcher("index.footer.html").include(request, response);
-           }else{
+                request.getRequestDispatcher("Task.Add.html").include(request, response);
+                request.getRequestDispatcher("index.footer.html").include(request, response);
+            }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
                 request.getRequestDispatcher("index.nav.html").include(request, response);
                 out.print("<div class='container'><div class='alert alert-danger'>Session Exired or not admin session</div></div>");
                 request.getRequestDispatcher("index.LoginForm.html").include(request, response);
                 request.getRequestDispatcher("index.footer.html").include(request, response);
-           }           
+            }
         }
     }
 
@@ -140,7 +138,7 @@ public class Welcome extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Welcome.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -158,7 +156,7 @@ public class Welcome extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(Welcome.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
