@@ -10,11 +10,16 @@ import com.wipro.fms.userdao.TaskDao;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,33 +38,101 @@ public class ProAddTask extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+             HttpSession session = request.getSession();
             String name=request.getParameter("name");
-            String stime=request.getParameter("stime");
-            String etime=request.getParameter("etime");
-             TaskBean task = new TaskBean(name,stime,etime);
+            String stime = request.getParameter("stime");
+            String etime=request.getParameter("etime");            
+             TaskBean task = new TaskBean(name,Timestamp.valueOf(stime),Timestamp.valueOf(etime));
              if(TaskDao.addTask(task))
              {
                  System.out.println("task addeded successfully");
-                 
+                  request.getRequestDispatcher("index.head.html").include(request, response);
+               request.getRequestDispatcher("welcome.nav.html").include(request, response);
+                out.println("<br><div class='container-fluid'>");
+               out.println("<div class='row'>"); 
+               out.println("<div class='col-md-3 col-sm-4 animated fadeIn'>");
+               out.println("<div class=\"\">\n" +
+                "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
+                "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
+                "  <div class=\"w3-container \" >\n" +
+                "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Username : ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"username"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>"); 
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Date of Joining: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"doj"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Date of Birth: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"dob"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Contact No: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"contact_no"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Email : ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"email"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Address: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"address"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Account Type: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"role"));
+                    out.println("</div>");
+                out.println("</div>");
+                
+                out.println("<div class='clear-fix'><br></div>");
+                out.println("  </div>\n" +
+                "</div>\n" +
+                "<br>\n" +
+                "</div>");
+               out.println("</div>");
+               out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
+               out.print("<div class=\"w3-panel w3-green  w3-card w3-round-xxlarge\">\n" +
+                "  <h3>Success!</h3>\n" +
+                "  <p>Task "+task.getName()+" is added successfully.</p>\n" +
+                "</div> ");
+               request.getRequestDispatcher("index.footer.html").include(request, response);                 
              }
              else
              {
                  System.out.println("task addition failed");
              }
-             
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProAddTask</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProAddTask at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
@@ -75,7 +148,11 @@ public class ProAddTask extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProAddTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -89,7 +166,11 @@ public class ProAddTask extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProAddTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

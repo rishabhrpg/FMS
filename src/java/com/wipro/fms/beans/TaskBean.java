@@ -5,19 +5,13 @@
  */
 package com.wipro.fms.beans;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author Yogi
  */
 public class TaskBean {
-    private String name;
-    private String stime;
-    private String etime;
-    public TaskBean(String name, String stime, String etime) {
-        this.name = name;
-        this.stime = stime;
-        this.etime = etime;
-    }
 
     @Override
     public String toString() {
@@ -28,24 +22,32 @@ public class TaskBean {
         return name;
     }
 
+    public TaskBean(String name, Timestamp stime, Timestamp etime) {
+        this.name = name;
+        this.stime = stime;
+        this.etime = etime;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getStime() {
+    public Timestamp getStime() {
         return stime;
     }
 
-    public void setStime(String stime) {
+    public void setStime(Timestamp stime) {
         this.stime = stime;
     }
 
-    public String getEtime() {
+    public Timestamp getEtime() {
         return etime;
     }
 
-    public void setEtime(String etime) {
+    public void setEtime(Timestamp etime) {
         this.etime = etime;
     }
-
+    private String name;
+    private Timestamp stime;
+    private Timestamp etime;
 }
