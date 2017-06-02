@@ -45,9 +45,9 @@ public class Welcome extends HttpServlet {
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
                out.println("<div class='row'>");
-               out.println("<div class='col-md-3'>");
+               out.println("<div class='col-md-3 animated fadeIn'>");
                out.println("<div class=\"\">\n" +
-                "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;max-width:300px;\">\n" +
+                "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
                 "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
                 "  <div class=\"w3-container\" >\n" +
                 "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
