@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Helpers.Helper;
+import com.wipro.fms.userdao.DBHelper;
 import com.wipro.fms.userdao.UserDao;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -45,65 +46,65 @@ public class Welcome extends HttpServlet {
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
                out.println("<div class='row'>");
-               out.println("<div class='col-md-3 animated fadeIn'>");
+               out.println("<div class='col-md-3 col-sm-4 animated fadeIn'>");
                out.println("<div class=\"\">\n" +
                 "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
                 "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
-                "  <div class=\"w3-container\" >\n" +
+                "  <div class=\"w3-container \" >\n" +
                 "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Username : ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"username"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Date of Joining: ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"doj"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Date of Birth: ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"dob"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Contact No: ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"contact_no"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Email : ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"email"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Address: ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"address"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println("Account Type: ");
                     out.println("</div>");
-                    out.println("<div class='col-md-6'>");
+                    out.println("<div class='col-xs-6'>");
                         out.println(UserDao.getUserData(session,"role"));
                     out.println("</div>");
                 out.println("</div>");
@@ -113,7 +114,7 @@ public class Welcome extends HttpServlet {
                 "</div>\n" +
                 "<br>\n" +
                 "</div>");
-               
+               out.println("</div>");
                request.getRequestDispatcher("index.footer.html").include(request, response);
            }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
@@ -123,6 +124,7 @@ public class Welcome extends HttpServlet {
                 request.getRequestDispatcher("index.footer.html").include(request, response);
            }           
         }
+        DBHelper.getDbConnection().close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
