@@ -33,19 +33,19 @@ public class Welcome extends HttpServlet {
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException if an I/O error occurs 
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            System.out.println(Helper.validateAdmin(session));
+            System.out.println(Helper.validateAdmin(session)); 
            if(Helper.validateAdmin(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
-               out.println("<div class='row'>");
+               out.println("<div class='row'>"); 
                out.println("<div class='col-md-3 col-sm-4 animated fadeIn'>");
                out.println("<div class=\"\">\n" +
                 "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
