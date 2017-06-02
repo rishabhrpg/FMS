@@ -19,7 +19,7 @@ public class TaskDao {
          try{
             Connection conn = DBHelper.getDbConnection();
             
-            PreparedStatement pst = conn.prepareStatement("insert into tasks(name,stime,etime) values(?,?,?)");
+            PreparedStatement pst = conn.prepareStatement("insert into tasks(id,name,stime,etime) values(tasks_id.nextval,?,?,?)");
             pst.setString(1,task.getStime());
             pst.setString(2,task.getEtime());
             pst.setString(3,task.getName());
