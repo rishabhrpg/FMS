@@ -7,10 +7,6 @@ package com.wipro.fms.beans;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author Yogi
- */
 public class TaskBean {
 
     @Override
