@@ -37,11 +37,37 @@ public class Helper {
         }
     }
     public static boolean validateTrainer(HttpSession session){
-        if(!validateSession(session))
+        try{
+            String type = session.getAttribute("type").toString();           
+        }catch(Exception e){
             return false;
-        if(session.getAttribute("type").equals("trainer"))
+        }
+                
+        System.out.println("getting type from session : "+session.getAttribute("type"));
+        if(session.getAttribute("type").equals("manager")){
+            System.out.println("returning true");
             return true;
-        else
+        }
+        else{
+            System.out.println("returning false");
             return false;
+        }  
+    }
+
+    public static boolean validateManager(HttpSession session) {
+        try{
+            String type = session.getAttribute("type").toString();           
+        }catch(Exception e){
+            return false;
+        }                
+        System.out.println("getting type from session : "+session.getAttribute("type"));
+        if(session.getAttribute("type").equals("manager")){
+            System.out.println("returning true");
+            return true;
+        }
+        else{
+            System.out.println("returning false");
+            return false;
+        }
     }
 }
