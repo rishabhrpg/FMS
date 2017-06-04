@@ -9,6 +9,10 @@ import java.sql.Timestamp;
 
 public class TaskBean {
 
+    public TaskBean() {
+        //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public String toString() {
         return "TaskBean{" + "name=" + name + ", stime=" + stime + ", etime=" + etime + '}';
