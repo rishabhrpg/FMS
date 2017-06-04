@@ -50,7 +50,7 @@ public class ProAddTrainer extends HttpServlet {
             String lname = request.getParameter("lastname");
             String username=request.getParameter("username");            
             String password = request.getParameter("password");
-            
+            String spec = request.getParameter("spec");
             //out.print(request.getParameter("dob"));
            
            java.sql.Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
@@ -59,7 +59,7 @@ public class ProAddTrainer extends HttpServlet {
             String contactno = request.getParameter("contactno");
             String address = request.getParameter("address");
             java.sql.Date doj=null;
-             UsersBean task = new UsersBean(fname,lname,dob,doj,contactno, email,address,username,password,"trainer");
+             UsersBean task = new UsersBean(fname,lname,dob,doj,contactno, email,address,username,password,"trainer",spec);
              if(TrainerDao.addTrainer(task))
              {
                  System.out.println("task addeded successfully");

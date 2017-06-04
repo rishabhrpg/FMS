@@ -31,8 +31,9 @@ public class WelcomeTrainer extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            request.getRequestDispatcher("index.head.html").include(request, response);
-            request.getRequestDispatcher("index.head.html").include(request, response);
+            out.println("login ho gya bhai");
+            request.getRequestDispatcher("trainer.nav.html").include(request, response);
+            request.getRequestDispatcher("index.footer.html").include(request, response);
         }
     }
 

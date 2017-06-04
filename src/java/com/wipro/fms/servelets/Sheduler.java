@@ -46,6 +46,9 @@ public class Sheduler extends HttpServlet {
                
                PreparedStatement pst3 = conn.prepareStatement("select * from spec where name=? ");               
                
+               PreparedStatement pst4 = conn.prepareStatement("select * from schedules where user_id =? ");
+               
+               PreparedStatement pst5 = conn.prepareStatement("insert into schedules values(schedule_id.nextval,?,?) ");
                String []failed = null;
                while(tasks.next()){
                    pst2.setInt(1,tasks.getInt("id"));
@@ -54,9 +57,18 @@ public class Sheduler extends HttpServlet {
                    while(rs.next()){
                        count++;
                    }
-                   if(count==0){                       
+                   if(count==0){   
                         pst3.setString(1,tasks.getString("name"));
-                        ResultSet spec = pst3.executeQuery();                       
+                        ResultSet spec = pst3.executeQuery();
+                        while(spec.next()){
+                            pst4.setInt(1, spec.getInt("id"));
+                            ResultSet avaliable_trainers = pst4.executeQuery();
+                            while(avaliable_trainers.next()){
+                               pst5.setInt(1, tasks.getInt("id"));
+                               pst5.setInt(2, avaliable_trainers.getInt("user_id"));
+                               pst5.execute();                              
+                            }
+                        }
                    }
                }
                

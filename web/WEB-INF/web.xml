@@ -68,6 +68,10 @@
         <servlet-name>Sheduler</servlet-name>
         <servlet-class>com.wipro.fms.servelets.Sheduler</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProUpdateTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ProUpdateTrainer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -131,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>Sheduler</servlet-name>
         <url-pattern>/Sheduler</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProUpdateTrainer</servlet-name>
+        <url-pattern>/ProUpdateTrainer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

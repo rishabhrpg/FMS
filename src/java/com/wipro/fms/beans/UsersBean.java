@@ -27,6 +27,15 @@ public class UsersBean {
     private String username;
     private String password;
     private String role;  
+    private String spec;
+
+    public String getSpec() {
+        return spec;
+    }
+
+    public void setSpec(String spec) {
+        this.spec = spec;
+    }
 
     public UsersBean(UsersBean user, String pass) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -112,7 +121,7 @@ public class UsersBean {
         this.role = role;
     }
 
-    public UsersBean(String firstname, String lastname, Date dob, Date doj, String contact_no, String email, String address, String username, String password, String role) {
+    public UsersBean(String firstname, String lastname, Date dob, Date doj, String contact_no, String email, String address, String username, String password, String role,String spec) {
         this.firstname = firstname;
         System.out.println("Getting firstname in beans "+firstname);
         this.lastname = lastname;
@@ -124,6 +133,7 @@ public class UsersBean {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.spec=spec;
     }
 
     @Override
