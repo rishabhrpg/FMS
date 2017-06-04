@@ -121,21 +121,24 @@ public class ViewTrainer extends HttpServlet {
                out.println("<form action=\"ViewTrainer\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
                     "<h4 class=\"w3-center\">Trainer Listing</h4>\n");
                     out.println("<table class='table table-responsive'>");                    
-                    out.println("<tr><th>Trainer Id</th><th>First Name</th><th>Last Name</th></tr>");                    
+                    out.println("<tr><th>Trainer Id</th><th>First Name</th><th>Last Name</th><th>Contact No</th><th>Email</th><th>Address</th></tr>");
                     Connection conn = DBHelper.getDbConnection();
-                    PreparedStatement pst = conn.prepareStatement("select id,firstname,lastname from users where role='trainer'");
+                    PreparedStatement pst = conn.prepareStatement("select id,firstname,lastname,contact_no,email,address from users where role='trainer'");
                     ResultSet rs = pst.executeQuery();
                     while(rs.next()){
                         out.println("<tr>");
                         out.println("<td>"+rs.getInt("id")+"</td>");
                         out.println("<td>"+rs.getString("firstname")+"</td>");
-                        out.println("<td>"+rs.getTimestamp("lastname").toString()+"</td>");                        
-                        out.println("</tr>");
+                        out.println("<td>"+rs.getString("lastname")+"</td>");
+                        out.println("<td>"+rs.getString("contact_no")+"</td>");
+                        out.println("<td>"+rs.getString("email")+"</td>");
+                        out.println("<td>"+rs.getString("address")+"</td>");
+                        out.println("</tr>");  
                     }
                     out.println("</table>");
                     
                     out.println(                                       
-                    "<div class=\"row w3-center\">\n" +
+                    "<div class=\"row w3-center\">\n" + 
                     "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">OK</button>\n" +
                     "</div>\n" +
                     "</form>"); 
