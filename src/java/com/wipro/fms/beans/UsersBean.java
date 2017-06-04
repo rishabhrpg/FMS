@@ -30,7 +30,7 @@ public class UsersBean {
 
     public UsersBean(UsersBean user, String pass) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }   
 
     public String getFirstname() {
         return firstname;
@@ -114,6 +114,7 @@ public class UsersBean {
 
     public UsersBean(String firstname, String lastname, Date dob, Date doj, String contact_no, String email, String address, String username, String password, String role) {
         this.firstname = firstname;
+        System.out.println("Getting firstname in beans "+firstname);
         this.lastname = lastname;
         this.dob = dob;
         this.doj = doj;
