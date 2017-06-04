@@ -72,6 +72,10 @@
         <servlet-name>ProUpdateTrainer</servlet-name>
         <servlet-class>com.wipro.fms.servelets.ProUpdateTrainer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProRemoveTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ProRemoveTrainer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -139,6 +143,10 @@
     <servlet-mapping>
         <servlet-name>ProUpdateTrainer</servlet-name>
         <url-pattern>/ProUpdateTrainer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProRemoveTrainer</servlet-name>
+        <url-pattern>/ProRemoveTrainer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

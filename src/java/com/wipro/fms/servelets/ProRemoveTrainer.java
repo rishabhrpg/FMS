@@ -5,13 +5,14 @@
  */
 package com.wipro.fms.servelets;
 
+import com.wipro.fms.beans.TaskBean;
 import com.wipro.fms.beans.UsersBean;
+import com.wipro.fms.userdao.TaskDao;
 import com.wipro.fms.userdao.TrainerDao;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Yogi
  */
-public class ProUpdateTrainer extends HttpServlet {
+public class ProRemoveTrainer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,25 +37,16 @@ public class ProUpdateTrainer extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ParseException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+       try (PrintWriter out = response.getWriter()) {
              HttpSession session = request.getSession();
-            String fname=request.getParameter("firstname");
-            String lname = request.getParameter("lastname");
-            String username=request.getParameter("username");            
-            String password = request.getParameter("password");
-            String spec = request.getParameter("spec");
-            //out.print(request.getParameter("dob"));
-           
-           java.sql.Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
-           
-            String email = request.getParameter("email");
-            String contactno = request.getParameter("contactno");
-            String address = request.getParameter("address");
-            java.sql.Date doj=null;
-             UsersBean task = new UsersBean(fname,lname,dob,doj,contactno, email,address,username,password,"trainer",spec);
-             if(TrainerDao.updateTrainer(task))
+            String name=request.getParameter("name");
+            String stime = request.getParameter("stime");
+            String etime=request.getParameter("etime");            
+             UsersBean task = new UsersBean();
+             task.setUsername(name);
+             if(TrainerDao.removeTrainer(task))
              {
                  System.out.println("task addeded successfully");
                   request.getRequestDispatcher("index.head.html").include(request, response);
@@ -133,13 +125,13 @@ public class ProUpdateTrainer extends HttpServlet {
                out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
                out.print("<div class=\"w3-panel w3-green  w3-card w3-round-xxlarge\">\n" +
                 "  <h3>Success!</h3>\n" +
-                "  <p>Trainer "+task.getFirstname()+" "+task.getLastname()+" is added successfully.</p>\n" +
+                "  <p>trainer "+task.getUsername()+" is removed successfully.</p>\n" +
                 "</div> ");
                request.getRequestDispatcher("index.footer.html").include(request, response);                 
              }
              else
              {
-                 System.out.println("trainer updation failed");
+                 System.out.println("task addition failed");
              }
         }
     }
@@ -159,9 +151,7 @@ public class ProUpdateTrainer extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProUpdateTrainer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(ProUpdateTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProRemoveTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -179,9 +169,7 @@ public class ProUpdateTrainer extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProUpdateTrainer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(ProUpdateTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProRemoveTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

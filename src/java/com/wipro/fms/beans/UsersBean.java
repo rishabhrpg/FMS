@@ -29,6 +29,10 @@ public class UsersBean {
     private String role;  
     private String spec;
 
+    public UsersBean() {
+       
+    }
+
     public String getSpec() {
         return spec;
     }

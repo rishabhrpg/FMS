@@ -6,6 +6,7 @@
 package com.wipro.fms.userdao;
 
 
+import com.wipro.fms.beans.TaskBean;
 import com.wipro.fms.beans.UsersBean;
 import com.wipro.fms.servelets.ProAddTrainer;
 import java.sql.Connection;
@@ -70,8 +71,8 @@ public class TrainerDao {
             Connection conn = DBHelper.getDbConnection();
             java.util.Date date = new java.util.Date();
             
-            PreparedStatement pst = conn.prepareStatement("update users set firstname=?,lastname=?,username=?,password=?,dob=?,doj=?,email=?,contact_no=?,address=?,role=? where username=? and role='trainer'");
-           
+            //PreparedStatement pst = conn.prepareStatement("update users set firstname=?,lastname=?,username=?,password=?,dob=?,doj=?,email=?,contact_no=?,address=?,role=? where username=? and role='trainer'");
+            PreparedStatement pst = conn.prepareStatement("update users set firstname='as',lastname='hh',username='hh',password='hh',email='zz',contact_no=123,address='gfchfc' where username='amar' and role='trainer'");
             System.out.println("Firstname in dao is "+task.getFirstname());
            pst.setString(1,task.getFirstname());
            pst.setString(2,task.getLastname());
@@ -91,9 +92,7 @@ public class TrainerDao {
            st.setString(1,task.getUsername());
            ResultSet rs=st.executeQuery();
            rs.next();
-           
            int id=rs.getInt("id");
-           
            pst=conn.prepareStatement("update spec set name=? where user_id=?");
            pst.setString(1,task.getSpec());
            pst.setInt(2,id);
@@ -102,6 +101,21 @@ public class TrainerDao {
            return pst.executeUpdate()==1;
                    }catch(SQLException x){
               Logger.getLogger(ProAddTrainer.class.getName()).log(Level.SEVERE, null, x);
+            return false;
+        }
+    }
+
+    public static boolean removeTrainer(UsersBean task) {
+         try{
+            Connection conn = DBHelper.getDbConnection();
+            
+            PreparedStatement pst = conn.prepareStatement("delete from users where username=?");
+            pst.setString(1,task.getUsername());
+            
+            return pst.executeUpdate()==1;
+             
+        }catch(SQLException x){
+            System.out.println("Error : "+x);
             return false;
         }
     }
