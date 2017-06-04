@@ -60,6 +60,10 @@
         <servlet-name>ViewTrainer</servlet-name>
         <servlet-class>com.wipro.fms.servelets.ViewTrainer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProAddTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ProAddTrainer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -115,6 +119,10 @@
     <servlet-mapping>
         <servlet-name>ViewTrainer</servlet-name>
         <url-pattern>/ViewTrainer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProAddTrainer</servlet-name>
+        <url-pattern>/ProAddTrainer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
