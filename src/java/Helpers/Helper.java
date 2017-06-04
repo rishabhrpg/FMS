@@ -44,7 +44,7 @@ public class Helper {
         }
                 
         System.out.println("getting type from session : "+session.getAttribute("type"));
-        if(session.getAttribute("type").equals("manager")){
+        if(session.getAttribute("type").equals("trainer")){
             System.out.println("returning true");
             return true;
         }
