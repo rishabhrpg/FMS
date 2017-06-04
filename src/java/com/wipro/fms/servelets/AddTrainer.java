@@ -21,9 +21,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Marvel
+ * @author Yogi
  */
-public class AddTask extends HttpServlet {
+public class AddTrainer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +38,7 @@ public class AddTask extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+             HttpSession session = request.getSession();
             if(Helper.validateManager(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
@@ -113,8 +113,8 @@ public class AddTask extends HttpServlet {
                 "<br>\n" +
                 "</div>");
                out.println("</div>");
-               out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
-                request.getRequestDispatcher("Task.Add.html").include(request, response);
+               out.print("<div class='col-md-8 col-sm-8  animated fadeInDown'>");
+                request.getRequestDispatcher("trainer.add.html").include(request, response);
                 request.getRequestDispatcher("index.footer.html").include(request, response);
             }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
@@ -123,8 +123,9 @@ public class AddTask extends HttpServlet {
                 request.getRequestDispatcher("index.LoginForm.html").include(request, response);
                 request.getRequestDispatcher("index.footer.html").include(request, response);
             }
-        }
+        
         DBHelper.getDbConnection().close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -142,7 +143,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,7 +161,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

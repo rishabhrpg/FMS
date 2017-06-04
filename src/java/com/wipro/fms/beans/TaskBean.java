@@ -7,11 +7,11 @@ package com.wipro.fms.beans;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author Yogi
- */
 public class TaskBean {
+
+    public TaskBean() {
+        //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public String toString() {

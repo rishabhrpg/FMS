@@ -5,12 +5,13 @@
  */
 package com.wipro.fms.servelets;
 
-import Helpers.Helper;
-import com.wipro.fms.userdao.DBHelper;
+import com.wipro.fms.beans.TaskBean;
+import com.wipro.fms.userdao.TaskDao;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,9 +22,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Marvel
+ * @author Yogi
  */
-public class AddTask extends HttpServlet {
+public class ProUpdateTask extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,17 +34,24 @@ public class AddTask extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            if(Helper.validateManager(session)){
-               request.getRequestDispatcher("index.head.html").include(request, response);
+             HttpSession session = request.getSession();
+            String name=request.getParameter("name");
+            String stime = request.getParameter("stime");
+            String etime=request.getParameter("etime");            
+             TaskBean task = new TaskBean(name,Timestamp.valueOf(stime),Timestamp.valueOf(etime));
+             if(TaskDao.updateTask(task))
+             { 
+                 System.out.println("task "+task.getName()+" updated successfully");
+                  request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
-               out.println("<div class='row'>");
+               out.println("<div class='row'>"); 
                out.println("<div class='col-md-3 col-sm-4 animated fadeIn'>");
                out.println("<div class=\"\">\n" +
                 "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
@@ -58,7 +66,7 @@ public class AddTask extends HttpServlet {
                         out.println(UserDao.getUserData(session,"username"));
                     out.println("</div>");
                 out.println("</div>");
-                out.println("<div class='row'>");
+                out.println("<div class='row'>"); 
                     out.println("<div class='col-xs-6'>");
                         out.println("Date of Joining: ");
                     out.println("</div>");
@@ -113,18 +121,18 @@ public class AddTask extends HttpServlet {
                 "<br>\n" +
                 "</div>");
                out.println("</div>");
-               out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
-                request.getRequestDispatcher("Task.Add.html").include(request, response);
-                request.getRequestDispatcher("index.footer.html").include(request, response);
-            }else{
-                request.getRequestDispatcher("index.head.html").include(request, response);
-                request.getRequestDispatcher("index.nav.html").include(request, response);
-                out.print("<div class='container'><div class='alert alert-danger'>Session Exired or not admin session</div></div>");
-                request.getRequestDispatcher("index.LoginForm.html").include(request, response);
-                request.getRequestDispatcher("index.footer.html").include(request, response);
-            }
+               out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
+               out.print("<div class=\"w3-panel w3-green  w3-card w3-round-xxlarge\">\n" +
+                "  <h3>Success!</h3>\n" +
+                "  <p>Task "+task.getName()+" is updated successfully.</p>\n" +
+                "</div> ");
+               request.getRequestDispatcher("index.footer.html").include(request, response);                 
+             }
+             else
+             {
+                 System.out.println("task addition failed");
+             }
         }
-        DBHelper.getDbConnection().close();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -142,7 +150,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProUpdateTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,7 +168,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProUpdateTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

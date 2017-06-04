@@ -8,6 +8,7 @@ package com.wipro.fms.userdao;
 import com.wipro.fms.beans.TaskBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -29,6 +30,42 @@ public class TaskDao {
                 return false;
              
         }catch(Exception x){
+            System.out.println("Error : "+x);
+            return false;
+        }
+        
+    }
+
+    public static boolean updateTask(TaskBean task) {
+        try{
+            Connection conn = DBHelper.getDbConnection();
+            
+            PreparedStatement pst = conn.prepareStatement("update tasks set stime=?,etime=? where name=?");
+            pst.setString(3,task.getName());
+            pst.setTimestamp(1,task.getStime());
+            pst.setTimestamp(2,task.getEtime());            
+            if(pst.executeUpdate()==1){
+                return true;
+            }else
+                return false;
+             
+        }catch(Exception x){
+            System.out.println("Error : "+x);
+            return false;
+        }
+       
+    }
+
+    public static boolean removeTask(TaskBean task) {
+        try{
+            Connection conn = DBHelper.getDbConnection();
+            
+            PreparedStatement pst = conn.prepareStatement("delete from tasks where name=?");
+            pst.setString(1,task.getName());
+            
+            return pst.executeUpdate()==1;
+             
+        }catch(SQLException x){
             System.out.println("Error : "+x);
             return false;
         }

@@ -10,6 +10,9 @@ import com.wipro.fms.userdao.DBHelper;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +24,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Marvel
+ * @author Yogi
  */
-public class AddTask extends HttpServlet {
+public class ViewTrainer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,8 +40,8 @@ public class AddTask extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+      try (PrintWriter out = response.getWriter()) {
+         HttpSession session = request.getSession();
             if(Helper.validateManager(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
@@ -113,8 +116,31 @@ public class AddTask extends HttpServlet {
                 "<br>\n" +
                 "</div>");
                out.println("</div>");
-               out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
-                request.getRequestDispatcher("Task.Add.html").include(request, response);
+               out.print("<div class='col-md-6 col-sm-8  animated fadeInDown'>");
+               
+               out.println("<form action=\"ViewTrainer\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
+                    "<h4 class=\"w3-center\">Trainer Listing</h4>\n");
+                    out.println("<table class='table table-responsive'>");                    
+                    out.println("<tr><th>Trainer Id</th><th>First Name</th><th>Last Name</th></tr>");                    
+                    Connection conn = DBHelper.getDbConnection();
+                    PreparedStatement pst = conn.prepareStatement("select id,firstname,lastname from users where role='trainer'");
+                    ResultSet rs = pst.executeQuery();
+                    while(rs.next()){
+                        out.println("<tr>");
+                        out.println("<td>"+rs.getInt("id")+"</td>");
+                        out.println("<td>"+rs.getString("firstname")+"</td>");
+                        out.println("<td>"+rs.getTimestamp("lastname").toString()+"</td>");                        
+                        out.println("</tr>");
+                    }
+                    out.println("</table>");
+                    
+                    out.println(                                       
+                    "<div class=\"row w3-center\">\n" +
+                    "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">OK</button>\n" +
+                    "</div>\n" +
+                    "</form>"); 
+               
+               
                 request.getRequestDispatcher("index.footer.html").include(request, response);
             }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
@@ -142,7 +168,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,7 +186,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

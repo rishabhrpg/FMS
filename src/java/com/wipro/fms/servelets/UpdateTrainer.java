@@ -10,6 +10,9 @@ import com.wipro.fms.userdao.DBHelper;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +24,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Marvel
+ * @author Yogi
  */
-public class AddTask extends HttpServlet {
+public class UpdateTrainer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +41,7 @@ public class AddTask extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+          HttpSession session = request.getSession();
             if(Helper.validateManager(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
@@ -113,8 +116,105 @@ public class AddTask extends HttpServlet {
                 "<br>\n" +
                 "</div>");
                out.println("</div>");
-               out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
-                request.getRequestDispatcher("Task.Add.html").include(request, response);
+               out.print("<div class='col-md-8 col-sm-8  animated fadeInDown'>");
+               
+               out.println("<form action=\"ProUpdateTrainer\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
+                    "<h4 class=\"w3-center\">Update a Trainer</h4>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>        \n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>\n" +
+                    "        \n");
+                    out.println("<select name='name' class='form-control'>");                    
+                    Connection conn = DBHelper.getDbConnection();
+                    PreparedStatement pst = conn.prepareStatement("select firstname,lastname from users where role='trainer'");
+                    ResultSet rs = pst.executeQuery();
+                    while(rs.next()){
+                        out.println("<option>"+rs.getString(1)+" "+rs.getString(2));
+                    }
+                    out.println("</select></div></div>");
+                    
+                    out.print("<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>\n" +
+                    "        <label class=\"form-control\">First Name</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"firstname\" type=\"text\" placeholder=\"First Name\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<div class=\"form-group\">    \n" +
+                    "    <div class='input-group date'>\n" +
+                    "        <label class=\"form-control\">Last Name</label>        \n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"lastname\" type=\"text\" placeholder=\"Last Name\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>        \n" +
+                    "        <label class=\"form-control\">Username</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"username\" type=\"text\" placeholder=\"Username\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>       \n" +
+                    "        <label class=\"form-control\">Password</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"password\" type=\"password\" placeholder=\"Password\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>        \n" +
+                    "        <label class=\"form-control\">Date of Birth</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-calendar\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"dob\" type=\"date\" placeholder=\"Date of Birth in YYYY/MM/DD\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>       \n" +
+                    "        <label class=\"form-control\">Email</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-envelope\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"email\" type=\"email\" placeholder=\"email\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>       \n" +
+                    "        <label class=\"form-control\">Contact No</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-mobile\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"contact_no\" type=\"number\" min=\"10\" max=\"12\" placeholder=\"Contact No\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>        \n" +
+                    "        <label class=\"form-control\">Address</label>\n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>        \n" +
+                    "        <input class=\"form-control\" name=\"address\" type=\"text\" placeholder=\"Address\" required=\"required\">\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<div class=\"row w3-center\">\n" +
+                    "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">Save</button>\n" +
+                    "</div>\n" +
+                    "</form>");
+                                   
                 request.getRequestDispatcher("index.footer.html").include(request, response);
             }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
@@ -123,8 +223,9 @@ public class AddTask extends HttpServlet {
                 request.getRequestDispatcher("index.LoginForm.html").include(request, response);
                 request.getRequestDispatcher("index.footer.html").include(request, response);
             }
-        }
+        
         DBHelper.getDbConnection().close();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -142,7 +243,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,7 +261,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

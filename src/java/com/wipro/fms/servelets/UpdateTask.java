@@ -10,6 +10,9 @@ import com.wipro.fms.userdao.DBHelper;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +24,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Marvel
+ * @author Yogi
  */
-public class AddTask extends HttpServlet {
+public class UpdateTask extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,6 +36,7 @@ public class AddTask extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -114,7 +118,52 @@ public class AddTask extends HttpServlet {
                 "</div>");
                out.println("</div>");
                out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
-                request.getRequestDispatcher("Task.Add.html").include(request, response);
+               
+               out.println("<form action=\"ProUpdateTask\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
+                    "<h4 class=\"w3-center\">Update a Task</h4>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date'>        \n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"fa fa-pencil\"></span>\n" +
+                    "        </span>\n" +
+                    "        \n");
+                    out.println("<select name='name' class='form-control'>");                    
+                    Connection conn = DBHelper.getDbConnection();
+                    PreparedStatement pst = conn.prepareStatement("select name from tasks");
+                    ResultSet rs = pst.executeQuery();
+                    while(rs.next()){
+                        out.println("<option>"+rs.getString(1));
+                    }
+                    out.println("</select>");
+                    
+                    out.println("</div>\n" +
+                    "</div>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date' id='datetimepicker1'>        \n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"glyphicon glyphicon-calendar\"></span>\n" +
+                    "        </span>\n" +
+                    "        <input type='text' name = \"stime\" value=\"Starting Date and Time\" id=\"datetimepicker\" data-date-format=\"yyyy-mm-dd hh:mm:ss\" class=\"form-control\" />\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<div class=\"form-group\">\n" +
+                    "    <div class='input-group date' id='datetimepicker1'>        \n" +
+                    "        <span class=\"input-group-addon\">\n" +
+                    "            <span class=\"glyphicon glyphicon-calendar\"></span>\n" +
+                    "        </span>\n" +
+                    "        <input type='text' name = 'etime' value=\"Ending Date and Time\" id=\"datetimepicker2\" data-date-format=\"yyyy-mm-dd hh:mm:ss\" class=\"form-control\" />\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<script>\n" +
+                    "    $('#datetimepicker').datetimepicker();\n" +
+                    "    $('#datetimepicker2').datetimepicker(); \n" +
+                    "</script>\n" +
+                    "<div class=\"row w3-center\">\n" +
+                    "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">Save</button>\n" +
+                    "</div>\n" +
+                    "</form>"); 
+               
+               
                 request.getRequestDispatcher("index.footer.html").include(request, response);
             }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
@@ -126,6 +175,7 @@ public class AddTask extends HttpServlet {
         }
         DBHelper.getDbConnection().close();
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -142,7 +192,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,7 +210,7 @@ public class AddTask extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(AddTask.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

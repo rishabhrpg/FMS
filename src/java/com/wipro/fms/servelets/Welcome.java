@@ -1,4 +1,4 @@
-/*
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -40,8 +40,14 @@ public class Welcome extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            System.out.println(Helper.validateAdmin(session)); 
-           if(Helper.validateAdmin(session)){
+            System.out.print("run");
+            if(Helper.validateAdmin(session)){
+                request.getRequestDispatcher("WelcomeAdmin").forward(request, response);
+            }
+            else if(Helper.validateTrainer(session)){
+                request.getRequestDispatcher("WelcomeTrainer").forward(request, response);
+            } 
+            else if(Helper.validateManager(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
@@ -119,7 +125,7 @@ public class Welcome extends HttpServlet {
            }else{
                 request.getRequestDispatcher("index.head.html").include(request, response);
                 request.getRequestDispatcher("index.nav.html").include(request, response);
-                out.print("<div class='container'><div class='alert alert-danger'>Session Exired or not admin session</div></div>");
+                out.print("<div class='container'><div class='alert alert-danger'>Session Exired or not a valid session</div></div>");
                 request.getRequestDispatcher("index.LoginForm.html").include(request, response);
                 request.getRequestDispatcher("index.footer.html").include(request, response);
            }           
