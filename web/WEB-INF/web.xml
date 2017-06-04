@@ -5,12 +5,60 @@
         <servlet-class>com.wipro.fms.servelets.Login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Welcome</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.Welcome</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>com.wipro.fms.servelets.Logout</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddTask</servlet-name>
         <servlet-class>com.wipro.fms.servelets.AddTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WelcomeTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.WelcomeTrainer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WelcomeAdmin</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.WelcomeAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTask</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.UpdateTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProUpdateTask</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ProUpdateTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveTask</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.RemoveTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProRemoveTask</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ProRemoveTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTask</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ViewTask</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.AddTrainer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.UpdateTrainer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RemoveTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.RemoveTrainer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTrainer</servlet-name>
+        <servlet-class>com.wipro.fms.servelets.ViewTrainer</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -23,6 +71,50 @@
     <servlet-mapping>
         <servlet-name>AddTask</servlet-name>
         <url-pattern>/AddTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WelcomeTrainer</servlet-name>
+        <url-pattern>/WelcomeTrainer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WelcomeAdmin</servlet-name>
+        <url-pattern>/WelcomeAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTask</servlet-name>
+        <url-pattern>/UpdateTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProUpdateTask</servlet-name>
+        <url-pattern>/ProUpdateTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveTask</servlet-name>
+        <url-pattern>/RemoveTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProRemoveTask</servlet-name>
+        <url-pattern>/ProRemoveTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTask</servlet-name>
+        <url-pattern>/ViewTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTrainer</servlet-name>
+        <url-pattern>/AddTrainer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateTrainer</servlet-name>
+        <url-pattern>/UpdateTrainer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveTrainer</servlet-name>
+        <url-pattern>/RemoveTrainer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTrainer</servlet-name>
+        <url-pattern>/ViewTrainer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
