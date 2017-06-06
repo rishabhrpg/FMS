@@ -117,7 +117,7 @@ public class RemoveTrainer extends HttpServlet {
                 "</div>");
                out.println("</div>");
                out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
-               
+                out.print("<script> function changeUsername(user){ $(\"#username\").val(user);} </script>");
                out.println("<form action=\"ProRemoveTrainer\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
                     "<h4 class=\"w3-center\">Remove a Trainer</h4>\n" +
                     "<div class=\"form-group\">\n" +
@@ -126,19 +126,21 @@ public class RemoveTrainer extends HttpServlet {
                     "            <span class=\"fa fa-pencil\"></span>\n" +
                     "        </span>\n" +
                     "        \n");
-                    out.println("<select name='name' class='form-control'>");                    
+               out.println("<input type='hidden' id='username' name='username'/>");
+                    out.println("<select onchange='changeUsername(this.value)' class='form-control'>"); 
+                    
                     Connection conn = DBHelper.getDbConnection();
-                    PreparedStatement pst = conn.prepareStatement("select firstname, lastname from users where role='trainer'");
+                    PreparedStatement pst = conn.prepareStatement("select firstname, lastname,username from users where role='trainer'");
                     ResultSet rs = pst.executeQuery();
                     while(rs.next()){
-                        out.println("<option>"+rs.getString(1)+" "+rs.getString(2));
+                        out.println("<option value='"+rs.getString("username")+"'>"+rs.getString(1)+" "+rs.getString(2));
                     }
                     out.println("</select>");
-                    
+                      
                     out.println("</div>\n" +
                     "</div>\n" +                   
                     "<div class=\"row w3-center\">\n" +
-                    "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">Save</button>\n" +
+                    "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">Remove</button>\n" +
                     "</div>\n" +
                     "</form>"); 
                

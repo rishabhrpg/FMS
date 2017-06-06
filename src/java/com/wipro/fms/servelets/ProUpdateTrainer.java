@@ -133,13 +133,13 @@ public class ProUpdateTrainer extends HttpServlet {
                out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
                out.print("<div class=\"w3-panel w3-green  w3-card w3-round-xxlarge\">\n" +
                 "  <h3>Success!</h3>\n" +
-                "  <p>Trainer "+task.getFirstname()+" "+task.getLastname()+" is added successfully.</p>\n" +
+                "  <p>Trainer "+task.getFirstname()+" "+task.getLastname()+" is Updated successfully.</p>\n" +
                 "</div> ");
                request.getRequestDispatcher("index.footer.html").include(request, response);                 
              }
              else
              {
-                 System.out.println("trainer updation failed");
+                 System.out.println("trainer updation  failed");
              }
         }
     }

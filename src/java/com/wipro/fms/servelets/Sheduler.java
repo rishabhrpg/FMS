@@ -5,7 +5,9 @@
  */
 package com.wipro.fms.servelets;
 
+import Helpers.Helper;
 import com.wipro.fms.userdao.DBHelper;
+import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -18,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,10 +41,90 @@ public class Sheduler extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-               Connection conn = DBHelper.getDbConnection();
+              HttpSession session = request.getSession();
+            if(Helper.validateManager(session)){
+               request.getRequestDispatcher("index.head.html").include(request, response);
+               request.getRequestDispatcher("welcome.nav.html").include(request, response);
+                out.println("<br><div class='container-fluid'>");
+               out.println("<div class='row'>");
+               out.println("<div class='col-md-3 col-sm-4 animated fadeIn'>");
+               out.println("<div class=\"\">\n" +
+                "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
+                "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
+                "  <div class=\"w3-container \" >\n" +
+                "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Username : ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"username"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Date of Joining: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"doj"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Date of Birth: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"dob"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Contact No: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"contact_no"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Email : ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"email"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Address: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"address"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Account Type: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"role"));
+                    out.println("</div>");
+                out.println("</div>");
+                
+                out.println("<div class='clear-fix'><br></div>");
+                out.println("  </div>\n" +
+                "</div>\n" +
+                "<br>\n" +
+                "</div>");
+               out.println("</div>");
+               out.print("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
+              out.print("<form action=\"Sheduler\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
+"<h4 class=\"w3-center\">Schedule Log</h4>\n");
+
+          
+                 Connection conn = DBHelper.getDbConnection();
                PreparedStatement pst = conn.prepareStatement("select * from tasks");
                ResultSet tasks = pst.executeQuery();
-               
+                
                PreparedStatement pst2 = conn.prepareStatement("select * from schedules where task_id = ?");
                
                PreparedStatement pst3 = conn.prepareStatement("select * from spec where name=? ");               
@@ -50,6 +133,8 @@ public class Sheduler extends HttpServlet {
                
                PreparedStatement pst5 = conn.prepareStatement("insert into schedules values(schedule_id.nextval,?,?) ");
                String []failed = null;
+               int taskcount=0;
+                boolean isscheduled=false;
                while(tasks.next()){
                    pst2.setInt(1,tasks.getInt("id"));
                    ResultSet rs = pst2.executeQuery();
@@ -58,20 +143,62 @@ public class Sheduler extends HttpServlet {
                        count++;
                    }
                    if(count==0){   
+                       taskcount++;
                         pst3.setString(1,tasks.getString("name"));
                         ResultSet spec = pst3.executeQuery();
+                        
                         while(spec.next()){
-                            pst4.setInt(1, spec.getInt("id"));
+                            
+                            out.println("<br><br> task without trainer "+tasks.getString("name"));
+                             out.println(" <br><br>trainer id for spec  "+tasks.getString("name") + " id is "+spec.getString("user_id"));
+                            
+                            pst4.setInt(1, spec.getInt("user_id"));
                             ResultSet avaliable_trainers = pst4.executeQuery();
-                            while(avaliable_trainers.next()){
-                               pst5.setInt(1, tasks.getInt("id"));
-                               pst5.setInt(2, avaliable_trainers.getInt("user_id"));
-                               pst5.execute();                              
+                             out.println("<br>checking for availablity of trainer");
+                             boolean isavaliable=true;
+                             
+                            if(avaliable_trainers.next()){
+                                isavaliable=false;
+                                out.println("<br>Trainer id "+avaliable_trainers.getString("id") +" is not avaliable");
+                                
                             }
-                        }
-                   }
+                            out.println("<br>is avaliable : "+isavaliable );
+                            if(isavaliable){
+                                
+                               out.println("<br>Trainer id "+spec.getInt("user_id") +" is avaliable");
+                               pst5.setInt(1, tasks.getInt("id")); 
+                               pst5.setInt(2, spec.getInt("user_id"));
+                               pst5.execute();
+                                    out.println("<br>Scheduled Succesfully");
+                                    isscheduled=true;
+                               
+                            }
+                        } 
+                   }else{
+                       
+                             out.println("<br> task "+tasks.getString("name")+ " already scheduled");
+                             isscheduled=true;
+                                          }
+                    if(isscheduled==false){
+                        out.println("<br>There is no trainer avaliable for task "+tasks.getString("name")+ " or speacialized trainers not avaliable");
+                    }      
+                    isscheduled=false;
                }
-               
+               if(taskcount==0)
+                    out.println("No task for scheduling");
+             out.print("<div class=\"row w3-center\">\n" +
+"    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">Re-Schedule</button>\n" +
+"</div>\n" +
+"</form>");
+                request.getRequestDispatcher("index.footer.html").include(request, response);
+            }else{
+                request.getRequestDispatcher("index.head.html").include(request, response);
+                request.getRequestDispatcher("index.nav.html").include(request, response);
+                out.print("<div class='container'><div class='alert alert-danger'>Session Exired or not admin session</div></div>");
+                request.getRequestDispatcher("index.LoginForm.html").include(request, response);
+                request.getRequestDispatcher("index.footer.html").include(request, response);
+            }
+              
         }
     }
 

@@ -126,13 +126,14 @@ public class UpdateTrainer extends HttpServlet {
                     "            <span class=\"fa fa-pencil\"></span>\n" +
                     "        </span>\n" +
                     "        \n");
-                    out.println("<select name='name' class='form-control'>");                    
+                    out.println("<select onchange='changeUsername(this.value)' id='select' name='name' class='form-control'>");                    
                     Connection conn = DBHelper.getDbConnection();
-                    PreparedStatement pst = conn.prepareStatement("select firstname,lastname from users where role='trainer'");
+                    PreparedStatement pst = conn.prepareStatement("select firstname,lastname,username from users where role='trainer'");
                     ResultSet rs = pst.executeQuery();
                     while(rs.next()){
-                        out.println("<option>"+rs.getString(1)+" "+rs.getString(2));
+                        out.println("<option value="+rs.getString("username")+">"+rs.getString(1)+" "+rs.getString(2));
                     }
+                    out.print("<script> function changeUsername(user){ $(\"#username\").val(user);} </script>");
                     out.println("</select></div></div>");
                     
                     out.print("<div class=\"form-group\">\n" +
@@ -159,7 +160,7 @@ public class UpdateTrainer extends HttpServlet {
                     "        <span class=\"input-group-addon\">\n" +
                     "            <span class=\"fa fa-pencil\"></span>\n" +
                     "        </span>        \n" +
-                    "        <input class=\"form-control\" name=\"username\" type=\"text\" placeholder=\"Username\" required=\"required\">\n" +
+                    "        <input class=\"form-control \" name=\"username\" id='username' type=\"text\" placeholder=\"Username\" required=\"required\">\n" +
                     "    </div>\n" +
                     "</div>\n" +
                     "\n" +
@@ -198,7 +199,7 @@ public class UpdateTrainer extends HttpServlet {
                     "        <span class=\"input-group-addon\">\n" +
                     "            <span class=\"fa fa-mobile\"></span>\n" +
                     "        </span>        \n" +
-                    "        <input class=\"form-control\" name=\"contact_no\" type=\"number\" min=\"10\" max=\"12\" placeholder=\"Contact No\" required=\"required\">\n" +
+                    "        <input class=\"form-control\" name=\"contact_no\" type=\"number\" maxlegth=\"12\" placeholder=\"Contact No\" required=\"required\">\n" +
                     "    </div>\n" +
                     "</div>\n" +
                     "<div class=\"form-group\">\n" +
@@ -210,6 +211,15 @@ public class UpdateTrainer extends HttpServlet {
                     "        <input class=\"form-control\" name=\"address\" type=\"text\" placeholder=\"Address\" required=\"required\">\n" +
                     "    </div>\n" +
                     "</div>\n" +
+                            "<div class=\"form-group\">\n" +
+"    <div class='input-group date'>        \n" +
+"        <label class=\"form-control\">Specializtion</label>\n" +
+"        <span class=\"input-group-addon\">\n" +
+"            <span class=\"fa fa-pencil\"></span>\n" +
+"        </span>        \n" +
+"        <input class=\"form-control\" name=\"spec\" type=\"text\" placeholder=\"spec\" required=\"required\">\n" +
+"    </div>\n" +
+"</div>"+
                     "<div class=\"row w3-center\">\n" +
                     "    <button class=\"w3-button w3-round-xlarge w3-section w3-blue w3-ripple w3-padding\">Save</button>\n" +
                     "</div>\n" +

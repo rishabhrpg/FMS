@@ -9,6 +9,8 @@ package com.wipro.fms.userdao;
 import com.wipro.fms.beans.TaskBean;
 import com.wipro.fms.beans.UsersBean;
 import com.wipro.fms.servelets.ProAddTrainer;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,10 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -70,9 +76,9 @@ public class TrainerDao {
                 try{
             Connection conn = DBHelper.getDbConnection();
             java.util.Date date = new java.util.Date();
-            
-            //PreparedStatement pst = conn.prepareStatement("update users set firstname=?,lastname=?,username=?,password=?,dob=?,doj=?,email=?,contact_no=?,address=?,role=? where username=? and role='trainer'");
-            PreparedStatement pst = conn.prepareStatement("update users set firstname='as',lastname='hh',username='hh',password='hh',email='zz',contact_no=123,address='gfchfc' where username='amar' and role='trainer'");
+            System.out.println("Username value is "+task.getUsername());
+            PreparedStatement pst = conn.prepareStatement("update users set firstname=?,lastname=?,username=?,password=?,dob=?,doj=?,email=?,contact_no=?,address=?,role=? where username=? and role='trainer'");
+            //PreparedStatement pst = conn.prepareStatement("update users set firstname='as',lastname='hh',username='hh',password='hh',email='zz',contact_no=123,address='gfchfc' where username='amar' and role='trainer'");
             System.out.println("Firstname in dao is "+task.getFirstname());
            pst.setString(1,task.getFirstname());
            pst.setString(2,task.getLastname());
@@ -105,17 +111,95 @@ public class TrainerDao {
         }
     }
 
-    public static boolean removeTrainer(UsersBean task) {
+    public static boolean removeTrainer(UsersBean task, HttpServletRequest request,HttpServletResponse response,PrintWriter out,HttpSession session) throws ServletException, IOException, SQLException {
          try{
             Connection conn = DBHelper.getDbConnection();
-            
+            System.out.println("username os "+task.getUsername() );
             PreparedStatement pst = conn.prepareStatement("delete from users where username=?");
             pst.setString(1,task.getUsername());
             
             return pst.executeUpdate()==1;
              
         }catch(SQLException x){
-            System.out.println("Error : "+x);
+               request.getRequestDispatcher("index.head.html").include(request, response);
+               request.getRequestDispatcher("welcome.nav.html").include(request, response);
+                out.println("<br><div class='container-fluid'>");
+               out.println("<div class='row'>"); 
+               out.println("<div class='col-md-3 col-sm-4 animated fadeIn'>");
+               out.println("<div class=\"\">\n" +
+                "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
+                "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
+                "  <div class=\"w3-container \" >\n" +
+                "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Username : ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"username"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>"); 
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Date of Joining: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"doj"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Date of Birth: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"dob"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Contact No: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"contact_no"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Email : ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"email"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Address: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"address"));
+                    out.println("</div>");
+                out.println("</div>");
+                out.println("<div class='row'>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println("Account Type: ");
+                    out.println("</div>");
+                    out.println("<div class='col-xs-6'>");
+                        out.println(UserDao.getUserData(session,"role"));
+                    out.println("</div>");
+                out.println("</div>");
+                
+                out.println("<div class='clear-fix'><br></div>");
+                out.println("  </div>\n" +
+                "</div>\n" +
+                "<br>\n" +
+                "</div>");
+               out.println("</div>");
+               out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
+               out.print("<div class=\"w3-panel w3-red  w3-card w3-round-xxlarge\">\n" +
+                "  <h3>Warning!</h3>\n" +
+                "  <p>Can not remove trainer assigned to a task</p>\n" +
+                "</div> ");
+               request.getRequestDispatcher("index.footer.html").include(request, response);  
             return false;
         }
     }

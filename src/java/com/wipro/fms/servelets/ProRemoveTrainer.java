@@ -41,14 +41,13 @@ public class ProRemoveTrainer extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
        try (PrintWriter out = response.getWriter()) {
              HttpSession session = request.getSession();
-            String name=request.getParameter("name");
-            String stime = request.getParameter("stime");
-            String etime=request.getParameter("etime");            
+            String username=request.getParameter("username");
+            
              UsersBean task = new UsersBean();
-             task.setUsername(name);
-             if(TrainerDao.removeTrainer(task))
+             task.setUsername(username);
+             if(TrainerDao.removeTrainer(task,request,response,out,session))
              {
-                 System.out.println("task addeded successfully");
+                 System.out.println("task addeded successfully"); 
                   request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
@@ -57,7 +56,7 @@ public class ProRemoveTrainer extends HttpServlet {
                out.println("<div class=\"\">\n" +
                 "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
                 "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
-                "  <div class=\"w3-container \" >\n" +
+                "  <div class=\"w3-container \" >\n" + 
                 "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
                 out.println("<div class='row'>");
                     out.println("<div class='col-xs-6'>");
