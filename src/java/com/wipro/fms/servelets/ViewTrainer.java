@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,6 +42,7 @@ public class ViewTrainer extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
       try (PrintWriter out = response.getWriter()) {
+        Connection conn = DBHelper.getDbConnection();
          HttpSession session = request.getSession();
             if(Helper.validateManager(session)){
                request.getRequestDispatcher("index.head.html").include(request, response);
@@ -52,13 +54,13 @@ public class ViewTrainer extends HttpServlet {
                 "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
                 "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
                 "  <div class=\"w3-container \" >\n" +
-                "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
+                "  <h4><b>"+UserDao.getUserData(conn,session,"firstname")+" "+UserDao.getUserData(conn,session,"lastname")+"</b></h4>    \n");
                 out.println("<div class='row'>");
                     out.println("<div class='col-xs-6'>");
                         out.println("Username : ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"username"));
+                        out.println(UserDao.getUserData(conn,session,"username"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -66,7 +68,7 @@ public class ViewTrainer extends HttpServlet {
                         out.println("Date of Joining: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"doj"));
+                        out.println(UserDao.getUserData(conn,session,"doj"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -74,7 +76,7 @@ public class ViewTrainer extends HttpServlet {
                         out.println("Date of Birth: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"dob"));
+                        out.println(UserDao.getUserData(conn,session,"dob"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -82,7 +84,7 @@ public class ViewTrainer extends HttpServlet {
                         out.println("Contact No: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"contact_no"));
+                        out.println(UserDao.getUserData(conn,session,"contact_no"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -90,7 +92,7 @@ public class ViewTrainer extends HttpServlet {
                         out.println("Email : ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"email"));
+                        out.println(UserDao.getUserData(conn,session,"email"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -98,7 +100,7 @@ public class ViewTrainer extends HttpServlet {
                         out.println("Address: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"address"));
+                        out.println(UserDao.getUserData(conn,session,"address"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -106,7 +108,7 @@ public class ViewTrainer extends HttpServlet {
                         out.println("Account Type: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"role"));
+                        out.println(UserDao.getUserData(conn,session,"role"));
                     out.println("</div>");
                 out.println("</div>");
                 
@@ -121,8 +123,7 @@ public class ViewTrainer extends HttpServlet {
                out.println("<form action=\"ViewTrainer\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
                     "<h4 class=\"w3-center\">Trainer Listing</h4>\n");
                     out.println("<table class='table table-responsive'>");                    
-                    out.println("<tr><th>Trainer Id</th><th>First Name</th><th>Last Name</th><th>Contact No</th><th>Email</th><th>Address</th></tr>");
-                    Connection conn = DBHelper.getDbConnection();
+                    out.println("<tr><th>Trainer Id</th><th>First Name</th><th>Last Name</th><th>Contact No</th><th>Email</th><th>Address</th><th>Specialization</th></tr>");
                     PreparedStatement pst = conn.prepareStatement("select id,firstname,lastname,contact_no,email,address from users where role='trainer'");
                     ResultSet rs = pst.executeQuery();
                     while(rs.next()){
@@ -133,7 +134,14 @@ public class ViewTrainer extends HttpServlet {
                         out.println("<td>"+rs.getString("contact_no")+"</td>");
                         out.println("<td>"+rs.getString("email")+"</td>");
                         out.println("<td>"+rs.getString("address")+"</td>");
-                        out.println("</tr>");  
+                        Statement st = conn.createStatement();
+                        ResultSet spec = st.executeQuery("select * from spec where user_id = "+rs.getInt("id"));
+                        out.println("<td>");
+                        while(spec.next()){
+                            out.println(spec.getString("name")+", ");
+                        }
+                        out.println("</td>");
+                        out.println("</tr>");   
                     }
                     out.println("</table>");
                     

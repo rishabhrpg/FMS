@@ -6,10 +6,12 @@
 package com.wipro.fms.servelets;
 
 import com.wipro.fms.beans.TaskBean;
+import com.wipro.fms.userdao.DBHelper;
 import com.wipro.fms.userdao.TaskDao;
 import com.wipro.fms.userdao.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +41,7 @@ public class ProRemoveTask extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            Connection conn = DBHelper.getDbConnection();
              HttpSession session = request.getSession();
             String name=request.getParameter("name");
             String stime = request.getParameter("stime");
@@ -57,13 +60,13 @@ public class ProRemoveTask extends HttpServlet {
                 "<div class=\"w3-card-4 test\" style=\"color:#ffffff;background-color:#0088cc;width:92%;\">\n" +
                 "  <img src=\"img_avatar3.png\" alt=\"Avatar\" style=\"width:100%;opacity:0.85\">\n" +
                 "  <div class=\"w3-container \" >\n" +
-                "  <h4><b>"+UserDao.getUserData(session,"firstname")+" "+UserDao.getUserData(session,"lastname")+"</b></h4>    \n");
+                "  <h4><b>"+UserDao.getUserData(conn,session,"firstname")+" "+UserDao.getUserData(conn,session,"lastname")+"</b></h4>    \n");
                 out.println("<div class='row'>");
                     out.println("<div class='col-xs-6'>");
                         out.println("Username : ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"username"));
+                        out.println(UserDao.getUserData(conn,session,"username"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>"); 
@@ -71,7 +74,7 @@ public class ProRemoveTask extends HttpServlet {
                         out.println("Date of Joining: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"doj"));
+                        out.println(UserDao.getUserData(conn,session,"doj"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -79,7 +82,7 @@ public class ProRemoveTask extends HttpServlet {
                         out.println("Date of Birth: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"dob"));
+                        out.println(UserDao.getUserData(conn,session,"dob"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -87,7 +90,7 @@ public class ProRemoveTask extends HttpServlet {
                         out.println("Contact No: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"contact_no"));
+                        out.println(UserDao.getUserData(conn,session,"contact_no"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -95,7 +98,7 @@ public class ProRemoveTask extends HttpServlet {
                         out.println("Email : ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"email"));
+                        out.println(UserDao.getUserData(conn,session,"email"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -103,7 +106,7 @@ public class ProRemoveTask extends HttpServlet {
                         out.println("Address: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"address"));
+                        out.println(UserDao.getUserData(conn,session,"address"));
                     out.println("</div>");
                 out.println("</div>");
                 out.println("<div class='row'>");
@@ -111,7 +114,7 @@ public class ProRemoveTask extends HttpServlet {
                         out.println("Account Type: ");
                     out.println("</div>");
                     out.println("<div class='col-xs-6'>");
-                        out.println(UserDao.getUserData(session,"role"));
+                        out.println(UserDao.getUserData(conn,session,"role"));
                     out.println("</div>");
                 out.println("</div>");
                 

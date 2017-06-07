@@ -16,11 +16,10 @@ public class DBHelper {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","htikn","htikn");
                 con.setAutoCommit(true);
-                System.out.println("Jud gaya oyee.......");
+                System.out.println("Database Connection Established");
                 return con;
 	}catch(Exception ex){
-            System.out.println("maaa ki chuuuu");
-            System.out.println(ex);
+             System.out.println("Database Connection Failed Because of "+ex.getCause());
             return null;
         }	
     }

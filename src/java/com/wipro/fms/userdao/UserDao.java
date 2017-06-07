@@ -42,9 +42,8 @@ public class UserDao {
             return null;
         }
     }
-    public static String getUserData(HttpSession session,String col) throws SQLException{
+    public static String getUserData(Connection conn,HttpSession session,String col) throws SQLException{
         String user = session.getAttribute("username").toString();
-        Connection conn = DBHelper.getDbConnection();
         System.out.println("col name : "+col);
         PreparedStatement pst = conn.prepareStatement("select "+col+" from users where username = ?");        
         pst.setString(1,user);
