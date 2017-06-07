@@ -33,25 +33,18 @@ public class ProRemoveTask extends HttpServlet {
      *
      * @param request servlet request
      * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+        {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Connection conn = DBHelper.getDbConnection();
              HttpSession session = request.getSession();
             String name=request.getParameter("name");
-            String stime = request.getParameter("stime");
-            String etime=request.getParameter("etime");            
+            
              TaskBean task = new TaskBean();
              task.setName(name);
-             if(TaskDao.removeTask(task))
-             {
-                 System.out.println("task addeded successfully");
-                  request.getRequestDispatcher("index.head.html").include(request, response);
+                request.getRequestDispatcher("index.head.html").include(request, response);
                request.getRequestDispatcher("welcome.nav.html").include(request, response);
                 out.println("<br><div class='container-fluid'>");
                out.println("<div class='row'>"); 
@@ -124,17 +117,31 @@ public class ProRemoveTask extends HttpServlet {
                 "<br>\n" +
                 "</div>");
                out.println("</div>");
+             if(TaskDao.removeTask(task))
+             {
+                 System.out.println("task addeded successfully");
+               
                out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
                out.print("<div class=\"w3-panel w3-green  w3-card w3-round-xxlarge\">\n" +
                 "  <h3>Success!</h3>\n" +
                 "  <p>Task "+task.getName()+" is removed successfully.</p>\n" +
                 "</div> ");
-               request.getRequestDispatcher("index.footer.html").include(request, response);                 
+              
              }
              else
              {
-                 System.out.println("task addition failed");
+                  out.println("<div class='col-md-4 col-sm-8  animated fadeInDown'>");
+               out.print("<div class=\"w3-panel w3-red  w3-card w3-round-xxlarge\">\n" +
+                "  <h3>Warning!</h3>\n" +
+                "  <p>Can not remove task assigned to a trainer</p>\n" +
+                "</div> ");
+              
              }
+              request.getRequestDispatcher("index.footer.html").include(request, response);  
+        }catch(Exception ex){ 
+            
+                 Logger.getLogger(ProUpdateTask.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 
@@ -150,11 +157,7 @@ public class ProRemoveTask extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProRemoveTask.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -168,11 +171,7 @@ public class ProRemoveTask extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProRemoveTask.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -118,7 +118,7 @@ public class ViewTrainer extends HttpServlet {
                 "<br>\n" +
                 "</div>");
                out.println("</div>");
-               out.print("<div class='col-md-6 col-sm-8  animated fadeInDown'>");
+               out.print("<div class='col-md-8 col-sm-8  animated fadeInDown'>");
                
                out.println("<form action=\"ViewTrainer\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
                     "<h4 class=\"w3-center\">Trainer Listing</h4>\n");

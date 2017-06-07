@@ -44,7 +44,7 @@ public class UserDao {
     }
     public static String getUserData(Connection conn,HttpSession session,String col) throws SQLException{
         String user = session.getAttribute("username").toString();
-        System.out.println("col name : "+col);
+       // System.out.println("col name : "+col);
         PreparedStatement pst = conn.prepareStatement("select "+col+" from users where username = ?");        
         pst.setString(1,user);
         ResultSet rs = pst.executeQuery();
@@ -53,7 +53,7 @@ public class UserDao {
             data =  rs.getString(1);
             break;
         }        
-        System.out.println("returning : "+data);
+       // System.out.println("returning : "+data);
         return data;
     }
 }

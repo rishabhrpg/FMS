@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -121,8 +122,22 @@ public class Sheduler extends HttpServlet {
               out.print("<form action=\"Sheduler\" class=\"w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin w3-round-xlarge\" method=\"POST\">\n" +
 "<h4 class=\"w3-center\">Schedule Log</h4>\n");
 
-          
-
+              
+               Statement st = conn.createStatement();
+               ResultSet rs3 = st.executeQuery("select max(day) from schedule_log");
+               rs3.next();
+               
+               if(rs3.getDate(1).toString().equals(java.sql.Date.valueOf(java.time.LocalDate.now().toString()).toString())){
+                   System.out.println("Not truncating");
+               }else{
+                   Statement st5 = conn.createStatement();
+                   System.out.println("database date "+rs3.getDate(1));
+                   System.out.println("Today "+java.sql.Date.valueOf(java.time.LocalDate.now().toString()));
+                   st5.executeUpdate("truncate table schedules");
+                   System.out.println("truncating table schedule");
+               }
+                       
+               
                PreparedStatement pst = conn.prepareStatement("select * from tasks");
                ResultSet tasks = pst.executeQuery();
                 
@@ -172,7 +187,16 @@ public class Sheduler extends HttpServlet {
                                pst5.execute();
                                     out.println("<br>Scheduled Succesfully");
                                     isscheduled=true;
+                             PreparedStatement st10 = conn.prepareStatement("insert into schedule_log values(?)");
+                             st10.setDate(1, java.sql.Date.valueOf(java.time.LocalDate.now().toString()));
+                             st10.execute();
+                                 System.out.println(java.sql.Date.valueOf(java.time.LocalDate.now().toString()));
                                
+                              Statement st100 = conn.createStatement();
+                              double hours;
+                              hours = tasks.getTimestamp("etime").getTime() - tasks.getTimestamp("stime").getTime();
+                              System.out.println("\n\n\n\n Hours : "+hours);
+                              st100.executeUpdate("update users set work_hours = work_hours+"+hours);                              
                             }
                         } 
                    }else{

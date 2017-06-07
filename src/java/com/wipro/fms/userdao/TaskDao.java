@@ -6,9 +6,12 @@
 package com.wipro.fms.userdao;
 
 import com.wipro.fms.beans.TaskBean;
+import com.wipro.fms.servelets.ProUpdateTask;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -63,10 +66,11 @@ public class TaskDao {
             PreparedStatement pst = conn.prepareStatement("delete from tasks where name=?");
             pst.setString(1,task.getName());
             
-            return pst.executeUpdate()==1;
-             
+            pst.executeUpdate();
+             return true;
         }catch(SQLException x){
             System.out.println("Error : "+x);
+             Logger.getLogger(ProUpdateTask.class.getName()).log(Level.SEVERE, null, x);
             return false;
         }
         
